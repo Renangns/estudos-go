@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func PagarBoleto(conta verificaConta, valorDoBoleto float64) {
+func PagarBoleto(conta contas.Conta, valorDoBoleto float64) {
 	conta.Sacar(valorDoBoleto)
 }
 
@@ -14,17 +14,25 @@ type verificaConta interface {
 }
 
 func main() {
-	conta := contas.ContaCorrente{}
-	conta.Titular.Nome = "Titular 1"
-	conta.Depositar(100)
+	var conta1 contas.Conta
+	var conta2 contas.Conta
 
-	conta2 := contas.ContaPoupanca{}
-	conta2.Titular.Nome = "Titular 2"
+	contaCorrente := contas.ContaCorrente{}
+	contaCorrente.Titular.Nome = "Titular 1"
+	conta1 = &contaCorrente
+
+	conta1.Depositar(100)
+
+	contaPoupanca := contas.ContaPoupanca{}
+	contaPoupanca.Titular.Nome = "Titular 2"
+	conta2 = &contaPoupanca
+
 	conta2.Depositar(200)
 
-	PagarBoleto(&conta, 45)
-	PagarBoleto(&conta2, 190)
-	fmt.Println(conta)
+	PagarBoleto(conta1, 45)
+	PagarBoleto(conta2, 190)
+	conta1.Transferencia(50, conta2)
+	fmt.Println(conta1)
 	fmt.Println(conta2)
 
 }

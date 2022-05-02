@@ -33,7 +33,7 @@ func (c *ContaCorrente) Depositar(valor float64) (string, float64) {
 	return "Deposito realizado com sucesso", c.saldo
 }
 
-func (c *ContaCorrente) Transferencia(valor float64, contaDestino *ContaCorrente) string {
+func (c *ContaCorrente) Transferencia(valor float64, contaDestino Conta) string {
 	if valor < 0 {
 		return "Valor é menor que zero"
 	}
