@@ -42,6 +42,50 @@ func TestNaoDeveDepositarValorMenorQueZero(t *testing.T) {
 	}
 }
 
+func TestNaoDeveTransferirValorMenorQueZero(t *testing.T) {
+	conta1 := ContaCorrente{}
+	conta1.saldo = SALDO
+
+	conta2 := ContaCorrente{}
+	conta2.saldo = SALDO
+
+	res := conta1.Transferencia(-SALDO, &conta2)
+
+	if res != "Valor é menor que zero" && conta1.saldo != SALDO && conta2.saldo != SALDO {
+		t.Fatalf("Erro %s ", res)
+	}
+}
+
+func TestNaoDeveTransferirValorMaiorQueSaldoDisponivel(t *testing.T) {
+	conta1 := ContaCorrente{}
+	conta1.saldo = SALDO
+
+	conta2 := ContaCorrente{}
+	conta2.saldo = SALDO
+
+	res := conta1.Transferencia(SALDO+1, &conta2)
+
+	if res != "Conta não possui saldo para realizar a transferencia" && conta1.saldo != SALDO && conta2.saldo != SALDO {
+		t.Fatalf("Erro %s ", res)
+	}
+}
+
+func TestTransferirValor(t *testing.T) {
+	valorTransferencia := 200.
+
+	conta1 := ContaCorrente{}
+	conta1.saldo = SALDO
+
+	conta2 := ContaCorrente{}
+	conta2.saldo = SALDO
+
+	res := conta1.Transferencia(valorTransferencia, &conta2)
+
+	if res != "Transferencia realizada com sucesso" && conta1.saldo != SALDO-valorTransferencia && conta2.saldo != SALDO+valorTransferencia {
+		t.Fatalf("Erro %s ", res)
+	}
+}
+
 func TestObterSaldo(t *testing.T) {
 	conta := ContaCorrente{}
 	conta.saldo = SALDO
